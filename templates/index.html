@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js">
+    </script>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>EnergyEstimator</title>
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+            color: black !important
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+
+        nav {
+            background-color: #81d4fa;
+        }
+
+        nav a {
+            color: black !important;
+        }
+
+        footer {
+            background: #81d4fa !important;
+        }
+
+        .iframe-background {
+            margin-top: 0px;
+            position: absolute;
+            float: left;
+            clear: both;
+            width: 100%;
+            z-index: -1;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-wrapper">
+                <a style="padding-left: 20px;" class="brand-logo" href="#">EnergyEstimator</a>
+            </div>
+        </nav>
+
+    </header>
+    <main>
+        <div class="container">
+
+            <form action="/estimate">
+                <div class="row" style="padding-top:25vh">
+                    <div class="col s10">
+                        <input id="address" name="address" type="text">
+                        <label for="address">Enter an address to begin.</label>
+                    </div>
+                    <div class="col s2">
+                        <button class="btn waves-effect waves-light" type="submit">Go</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </main>
+
+    <footer class="page-footer">
+        <div class="footer-copyright">
+            <div class="container">
+                Made By Shaun Maher
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

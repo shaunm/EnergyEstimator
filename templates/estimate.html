@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js">
+    </script>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>EnergyEstimator</title>
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+            color: black !important
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+
+        nav {
+            background-color: #81d4fa;
+        }
+
+        nav a {
+            color: black !important;
+        }
+
+        footer {
+            background: #81d4fa !important;
+        }
+
+        .iframe-background {
+            margin-top: 0px;
+            position: absolute;
+            float: left;
+            clear: both;
+            width: 100%;
+            z-index: -1;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-wrapper">
+                <a style="padding-left: 20px;" class="brand-logo" href="/">EnergyEstimator</a>
+            </div>
+        </nav>
+
+    </header>
+    <main>
+
+        <div class="splash-title">
+
+            <div class="iframe-background">
+                <iframe src="https://maps.google.com/maps?q={{lat}},{{lon}}&t=k&z=19&ie=UTF8&iwloc=&output=embed"
+                    style="border:0;width:100%;height:75vh;" allowfullscreen="" lazy-loading="true"></iframe>
+
+
+            </div>
+            <div style="background: white;border-radius: 5px;margin: 0% 36% 0% 0;">
+                <div style="padding: 20px">
+                    <span style="font-size: x-large;">{{address}}</span>
+                </div>
+
+            </div>
+
+        </div>
+        <section style="margin-top:72vh" id="general">
+            <div class="container">
+                <h4 align="center">See how much power you can generate this week with renewables:</h4>
+                <p align="center"><i>Takes into account wind and cloud conditions to see the climate's impact on your
+                        generation.</i></p>
+                <br>
+                <br>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Date:</td>
+                            {% for day in data %}
+                            <td style="text-decoration: underline;">{{day["date"]}}</td>
+                            {% endfor %}
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Solar:</td>
+                            {% for day in data %}
+                            <td>{{day["daylight"]}} hrs <br> <b>{{day["totalkwh_solar"]}} kWh/day</b></td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td>Wind:</td>
+                            {% for day in data %}
+                            <td>avg {{day["avg_wind"]}} m/s <br> <b>{{day["totalkwh_wind"]}} kWh/day</b></td>
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+                <p><i>Assuming two, 6ft diameter wind turbines and 75% roof coverage with 150W/m solar panels.</i></p><br>
+                <p align="right"><i>{{fact}}</i></p>
+                <br>
+                <br>
+                <br>
+                <br>
+                <h4 align="center">Estimate your current average daily usage:</h4>
+                <p align="center"><i>Energy prices in your area are ${{pwr}}/kWh.</i></p>
+                <br>
+                <br>
+                <div class="container">
+                    <div class="row">
+                        <div align="center" class="input-field col s12 m6">
+                            <input id="source" type="text" placeholder="Enter to calculate">
+                            <label for="source">Energy Bill (USD)</label>
+                        </div>
+                        <div align="center" class="input-field col s12 m6">
+                            <p><span id="usage"></span> kWh/day</p>
+                        </div>
+                        <script>
+                            const source = document.getElementById('source');
+                            const result = document.getElementById('usage');
+                            const powerCost = {{pwr}}
+                            const inputHandler = function (e) {
+                                result.innerHTML = Math.round(((e.target.value / powerCost) / 30.437) * 100) / 100;
+                            }
+
+                            source.addEventListener('input', inputHandler);
+                            source.addEventListener('propertychange', inputHandler)
+                        </script>
+                    </div>
+
+                </div>
+                <br>
+                <br>
+            </div>
+
+        </section>
+    </main>
+
+    <footer class="page-footer">
+        <div class="footer-copyright">
+            <div class="container">
+                Made By Shaun Maher
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
